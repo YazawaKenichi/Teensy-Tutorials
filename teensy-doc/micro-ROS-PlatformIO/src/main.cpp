@@ -1,4 +1,5 @@
-#include <micro_ros_arduino.h>
+#include <Arduino.h>
+#include <micro_ros_platformio.h>
 
 #include <stdio.h>
 #include <rcl/rcl.h>
@@ -41,7 +42,9 @@ void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
 
 void setup() {
     // printf("Setup ... \r\n");
-  set_microros_transports();
+    Serial.begin(115200);
+  set_microros_serial_transports(Serial);
+  // set_microros_transports();
 
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
@@ -51,12 +54,15 @@ void setup() {
   allocator = rcl_get_default_allocator();
 
   //create init_options
+  printf("Create Init Options\r\n");
   RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));
 
   // create node
+  printf("Create Node\r\n");
   RCCHECK(rclc_node_init_default(&node, "micro_ros_arduino_node", "", &support));
 
   // create publisher
+  printf("Create Publisher\r\n");
   RCCHECK(rclc_publisher_init_default(
     &publisher,
     &node,
@@ -64,6 +70,7 @@ void setup() {
     "micro_ros_arduino_node_publisher"));
 
   // create timer,
+  printf("Create Timer\r\n");
   const unsigned int timer_timeout = 1000;
   RCCHECK(rclc_timer_init_default(
     &timer,
@@ -72,7 +79,9 @@ void setup() {
     timer_callback));
 
   // create executor
+  printf("Create Executor Init\r\n");
   RCCHECK(rclc_executor_init(&executor, &support.context, 1, &allocator));
+  printf("Create Executor Add Timer\r\n");
   RCCHECK(rclc_executor_add_timer(&executor, &timer));
 
   msg.data = 0;
