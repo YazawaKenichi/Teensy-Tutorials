@@ -35,10 +35,12 @@ void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
   if (timer != NULL) {
     RCSOFTCHECK(rcl_publish(&publisher, &msg, NULL));
     msg.data++;
+    // printf("msg.data : %ld\r\n", msg.data);
   }
 }
 
 void setup() {
+    // printf("Setup ... \r\n");
   set_microros_transports();
 
   pinMode(LED_PIN, OUTPUT);
@@ -74,9 +76,12 @@ void setup() {
   RCCHECK(rclc_executor_add_timer(&executor, &timer));
 
   msg.data = 0;
+
+  // printf("Setup Complete!\r\n");
 }
 
 void loop() {
+  // printf("Looping ... \r\n");
   delay(100);
   RCSOFTCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(100)));
 }
