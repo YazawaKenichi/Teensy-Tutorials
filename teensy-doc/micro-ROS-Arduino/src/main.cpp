@@ -35,7 +35,7 @@ void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
   if (timer != NULL) {
     RCSOFTCHECK(rcl_publish(&publisher, &msg, NULL));
     msg.data++;
-    // printf("msg.data : %ld\r\n", msg.data);
+    printf("msg.data : %ld\r\n", msg.data);
   }
 }
 
