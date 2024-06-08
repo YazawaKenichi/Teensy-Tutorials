@@ -1,4 +1,3 @@
-
 #include <micro_ros_arduino.h>
 
 #include <stdio.h>

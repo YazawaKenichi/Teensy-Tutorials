@@ -21,9 +21,13 @@ pio device monitor -p /dev/ttyACM0 -b 115200
 !!! Warning
     他の端末などで `micro_ros_agent` を起動している場合は、PC と Teensy が `Connect!` と `Disconnected!` を反復横飛びするので注意
 
+# 動作確認方法
+1. micro-ROS Agent を起動
+2. PC と Teensy の接続
+
 # micro-ROS Agent
 ``` cmd
-ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM0 -v6
+ros2 run micro_ros_agent micro_ros_agent serial -b 115200 --dev /dev/ttyACM0 -v6
 ```
 
 # 既知の問題
