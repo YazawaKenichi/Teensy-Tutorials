@@ -24,10 +24,12 @@ rcl_timer_t timer;
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){}}
 
 // Error handle loop
-void error_loop() {
-  while(1) {
-    delay(100);
-  }
+void error_loop()
+{
+    while(1)
+    {
+        delay(100);
+    }
 }
 
 void timer_callback(rcl_timer_t * timer, int64_t last_call_time) {
