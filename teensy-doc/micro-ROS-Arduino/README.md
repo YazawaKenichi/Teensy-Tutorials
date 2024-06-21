@@ -17,3 +17,7 @@ pio device monitor -p /dev/ttyACM0 -b 115200
 ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM0 -v6
 ```
 
+# ポイント
+- `ROS_DOMAIN_ID` は明示的に指定してはいけない
+- `ROS_LOCALHOST_ONLY` は `0`
+

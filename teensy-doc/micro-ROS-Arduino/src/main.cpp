@@ -16,6 +16,11 @@ rcl_allocator_t allocator;
 rcl_node_t node;
 rcl_timer_t timer;
 
+rcl_node_options_t node_opt;
+rcl_init_options_t init_opt;
+size_t domain_id = 65;
+
+#define HUMBLE 0
 #define LED_PIN 13
 
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
@@ -50,9 +55,19 @@ void setup() {
 
   allocator = rcl_get_default_allocator();
 
+#if HUMBLE
+  init_opt = rcl_get_zero_initialized_init_options();
+  RCCHECK(rcl_init_options_init(&init_opt, allocator));
+  RCCHECK(rcl_init_options_set_domain_id(&init_opt, domain_id));
+#endif
+
   //create init_options
   printf("Create Init Options\r\n");
+#if !HUMBLE
   RCCHECK(rclc_support_init(&support, 0, NULL, &allocator));
+#else
+  RCCHECK(rclc_support_init_with_options(&support, 0, NULL, &init_opt, &allocator));
+#endif
 
   // create node
   printf("Create Node\r\n");
@@ -69,11 +84,7 @@ void setup() {
   // create timer,
   printf("Create Timer\r\n");
   const unsigned int timer_timeout = 1000;
-  RCCHECK(rclc_timer_init_default(
-    &timer,
-    &support,
-    RCL_MS_TO_NS(timer_timeout),
-    timer_callback));
+  RCCHECK(rclc_timer_init_default(&timer, &support, RCL_MS_TO_NS(timer_timeout), timer_callback));
 
   // create executor
   printf("Create Executor Init\r\n");
@@ -86,7 +97,8 @@ void setup() {
   // printf("Setup Complete!\r\n");
 }
 
-void loop() {
+void loop()
+{
   // printf("Looping ... \r\n");
   delay(100);
   RCSOFTCHECK(rclc_executor_spin_some(&executor, RCL_MS_TO_NS(100)));
