@@ -9,6 +9,19 @@
 
 #include <std_msgs/msg/int32.h>
 
+#define HUMBLE 0
+//! ピン設定
+#define LED_PIN 13
+#define ANALOG_PIN A0
+//! Publish する時間周期 [ ms ]
+#define PUBLISH_MS 1
+
+//! ROS Domain ID の設定
+#define ROS_DOMAIN_ID 65
+
+#define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
+#define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){}}
+
 rcl_publisher_t publisher;
 std_msgs__msg__Int32 msg;
 // std_msgs__msg__Float32 msg;
@@ -20,15 +33,7 @@ rcl_timer_t timer;
 
 rcl_node_options_t node_opt;
 rcl_init_options_t init_opt;
-size_t domain_id = 65;
-
-#define HUMBLE 0
-#define LED_PIN 13
-#define ANALOG_PIN A0
-
-#define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
-#define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){}}
-
+size_t domain_id = ROS_DOMAIN_ID;
 
 void error_loop()
 {
@@ -91,7 +96,7 @@ void setup()
 
   // create timer,
   printf("Create Timer\r\n");
-  const unsigned int timer_timeout = 1;
+  const unsigned int timer_timeout = PUBLISH_MS;
   RCCHECK(rclc_timer_init_default(&timer, &support, RCL_MS_TO_NS(timer_timeout), timer_callback));
 
   // create executor
