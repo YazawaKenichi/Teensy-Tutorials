@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include <micro_ros_arduino.h>
 
 #include <stdio.h>
@@ -10,6 +11,7 @@
 
 rcl_publisher_t publisher;
 std_msgs__msg__Int32 msg;
+// std_msgs__msg__Float32 msg;
 rclc_executor_t executor;
 rclc_support_t support;
 rcl_allocator_t allocator;
@@ -22,13 +24,16 @@ size_t domain_id = 65;
 
 #define HUMBLE 0
 #define LED_PIN 13
+#define ANALOG_PIN A0
 
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){error_loop();}}
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){}}
 
 
-void error_loop(){
-  while(1){
+void error_loop()
+{
+  while(1)
+  {
     digitalWrite(LED_PIN, !digitalRead(LED_PIN));
     delay(100);
   }
@@ -36,15 +41,18 @@ void error_loop(){
 
 void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
 {
+    unsigned int sensor = analogRead(ANALOG_PIN);
   RCLC_UNUSED(last_call_time);
-  if (timer != NULL) {
+  if (timer != NULL)
+  {
     RCSOFTCHECK(rcl_publish(&publisher, &msg, NULL));
-    msg.data++;
+    msg.data = sensor;
     printf("msg.data : %ld\r\n", msg.data);
   }
 }
 
-void setup() {
+void setup()
+{
     // printf("Setup ... \r\n");
   set_microros_transports();
 
