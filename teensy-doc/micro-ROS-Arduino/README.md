@@ -22,6 +22,11 @@ ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM0 -v6
 - `ROS_LOCALHOST_ONLY` は `0`
 
 # Teensy 4.1 ピン配置
+
+[!image](https://www.pjrc.com/store/teensy41_card11a_rev3.png)
+
 - [Teensy 4.1 Develoment Board - PJRC Electronic Projects Components Available Worldwide](https://www.pjrc.com/store/teensy41.html)
 
+## Analog Pins に関する情報
+- [Teensy 4.1 Development Board Analog Pins - PJRC Electric Projects Components Available Worldwide](https://www.pjrc.com/store/teensy41.html#analog)
 
