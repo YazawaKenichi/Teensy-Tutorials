@@ -91,7 +91,7 @@ void setup()
 
   // create timer,
   printf("Create Timer\r\n");
-  const unsigned int timer_timeout = 1000;
+  const unsigned int timer_timeout = 1;
   RCCHECK(rclc_timer_init_default(&timer, &support, RCL_MS_TO_NS(timer_timeout), timer_callback));
 
   // create executor
