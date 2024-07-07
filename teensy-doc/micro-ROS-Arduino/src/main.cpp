@@ -7,7 +7,7 @@
 #include <rclc/rclc.h>
 #include <rclc/executor.h>
 
-#include <std_msgs/msg/int32.h>
+#include <std_msgs/msg/int16.h>
 
 #define HUMBLE 0
 //! ピン設定
@@ -23,7 +23,7 @@
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){}}
 
 rcl_publisher_t publisher;
-std_msgs__msg__Int32 msg;
+std_msgs__msg__Int16 msg;
 // std_msgs__msg__Float32 msg;
 rclc_executor_t executor;
 rclc_support_t support;
@@ -52,7 +52,7 @@ void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
   {
     RCSOFTCHECK(rcl_publish(&publisher, &msg, NULL));
     msg.data = sensor;
-    printf("msg.data : %ld\r\n", msg.data);
+    printf("msg.data : %d\r\n", msg.data);
   }
 }
 
@@ -91,7 +91,7 @@ void setup()
   RCCHECK(rclc_publisher_init_default(
     &publisher,
     &node,
-    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
+    ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int16),
     "micro_ros_arduino_node_publisher"));
 
   // create timer,
