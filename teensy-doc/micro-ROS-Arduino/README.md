@@ -23,7 +23,7 @@ ros2 run micro_ros_agent micro_ros_agent serial --dev /dev/ttyACM0 -v6
 
 # 配線
 - `3V3`
-- `A0`
+- `A0(14)`
 - `GND`
 
 # Teensy 4.1 ピン配置
